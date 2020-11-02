@@ -30,6 +30,8 @@ class MemberSignupView(CreateView):
 
         return redirect('welcome')
 
+
+
 @member_required
 def member_profile(request):
     member = request.user
@@ -39,7 +41,7 @@ def member_profile(request):
         if profile_form.is_valid():
             profile_form.save()
             messages.success(request, f'Profile successfully updated')
-            return redirect('member_profile')
+            return redirect('profile')
     else:
         profile_form = MemberUpdateForm(instance=member_profile)
 
@@ -48,3 +50,4 @@ def member_profile(request):
         'member': member
     }
     return render(request, 'users/member_profile.html', content)
+
