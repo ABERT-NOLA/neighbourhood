@@ -15,8 +15,13 @@ def index(request):
 @user_passes_test(lambda  u: u.is_superuser)
 def admin_profile(request):
     users = User.objects.all().order_by('id')
+    neihbourhood = Neighbourhood.objects.all()
+    business = Business.objects.all()
+
     context = {
-        'users': users
+        'users': users,
+        'hoods': neihbourhood,
+        'business': business
     }
 
     return render(request, 'hood/admin_profile.html', context)
