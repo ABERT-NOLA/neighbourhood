@@ -20,7 +20,58 @@
   
 </head>
 <body>
-    
+    <nav class="navbar navbar-expand-lg navbar-dark" id="kj" style="background:#0D5D56;">
+        <a class="navbar-brand" href="{% url 'welcome' %}">Neighbourhood</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">            
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'welcome' %}">Home <span class="sr-only">(current)</span></a>
+                </li>             
+            
+            
+            </ul>
+            
+
+            <ul class="navbar-nav ml-auto">
+                <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="" >
+                    <input name="search_donations" autocomplete="off" id="searching" class="form-control d-none d-md-block" placeholder="Search post">
+                   <i class="spinner "></i>
+               </form>
+                
+                {% if user.is_authenticated and user.is_hood_member %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'member_profile' %}">Donor Profile<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% elif user.is_authenticated and user.hood_admin %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'hoodam_profile' %}">NGO Profile<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% elif user.is_authenticated and user.is_superuser %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'admin_pr' %}">Admin's Profile<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else%}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
     <main class="container-fluid" role="main" style="width: 90%; margin: 0 auto;">
         {% if messages %}
         {% for message in messages %}
