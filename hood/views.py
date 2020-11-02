@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
-from users.decorators import member_required
+from users.decorators import member_required, hood_admin_required
+from .decorators import admin_required
 from .models import Business, Neighbourhood, Post
 # Create your views here.
 
@@ -63,7 +64,7 @@ class BusinessDeleteView(UserPassesTestMixin, DeleteView):
     success_url = '/'
 
    
-@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
 class HoodCreateView(UserPassesTestMixin, CreateView):
     model = Neighbourhood
     fields = '__all__'      
@@ -78,7 +79,7 @@ class HoodCreateView(UserPassesTestMixin, CreateView):
 class HoodDetailView(DetailView):
     model = Neighbourhood
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
 class HoodUpdateView(UserPassesTestMixin, UpdateView):
     model = Neighbourhood
     fields = '__all__'
@@ -90,7 +91,7 @@ class HoodUpdateView(UserPassesTestMixin, UpdateView):
         print('great')
         return super().form_valid(form)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_required, name='dispatch')
 class HoodDeleteView(UserPassesTestMixin, DeleteView):
     model = Neighbourhood
     fields = '__all__'
@@ -101,7 +102,7 @@ class HoodDeleteView(UserPassesTestMixin, DeleteView):
         print('great')
         return super().form_valid(form)
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(member_required, name='dispatch')
 class PostCreateView(CreateView):
     model = Post
     fields = ['title','content', 'image']
