@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from PIL import Image
+
 
 # Create your models here.
 class User(AbstractUser):
@@ -14,6 +16,8 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     contact = models.CharField(max_length=255, default='071234567')
     location = models.CharField(max_length=255)
+    image= models.ImageField(blank=True, upload_to='photos', default='default.jpg')
+
 
 class HoodAdminProfile(models.Model):
     user = models.OneToOneField(HoodAdmin, on_delete=models.CASCADE)
@@ -27,10 +31,16 @@ class HoodAdminProfile(models.Model):
 
 class MemberProfile(models.Model):
     user = models.OneToOneField(Member, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return f'{self.user.username} Profile'
 
 
     def save(self, **kwargs):
         super().save()
+
+        img = Image.open(self.image.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
