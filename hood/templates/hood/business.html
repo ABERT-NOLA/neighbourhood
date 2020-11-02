@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <h3>welcome</h3>
+        
+    </div>
+    <div class="row">
+        {% for bus in business %}
+        <div class="col-sm-4">
+            <a href="{% url 'business-detail' bus.id %}"><h3>{{bus.name}}</h3></a>
+            <p>{{bus.desc}}</p>
+            <p>{{bus.email}}</p>
+
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

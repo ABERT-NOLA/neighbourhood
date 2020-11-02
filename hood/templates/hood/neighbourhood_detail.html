@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row content-section">
+        <div class="col-sm-12">
+                <div class="card mt-1">                                        
+                    <div class="card-body">                      
+                        <h4 class="card-text">{{object.name}}</h4>
+                        <h6>{{object.location}}</h6>
+                        <p>{{object.occ_count}}</p>
+                        <p>{{object.fire_dept}}</p>    
+                        {% if user.is_authenticated and user.is_superuser %}                        
+                            <div class="card-footer react" style="justify-content: space-between;">
+                                <a href="{% url 'delete-neighbourhood' object.id %}" class="btn btn-outline-secondary">Update Neighbourhood</a>
+                                <a href="{% url 'update-neighbourhood' object.id %}" class="btn btn-outline-danger ml-2">Delete Neighbourhood</a>
+
+                            </div>
+                        {% endif %}
+                                               
+                    </div>
+                </div>
+
+        </div>
+        
+
+    </div>
+{% endblock %}
