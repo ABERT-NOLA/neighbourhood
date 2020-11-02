@@ -12,10 +12,10 @@ def save_profile(sender, instance, **kwargs):
     instance.hoodadminprofile.save()
 
 @receiver(post_save, sender=Member)
-def create_profile(sender, instance, created, **kwargs):
+def create_member_profile(sender, instance, created, **kwargs):
     if created:
         MemberProfile.objects.create(user=instance)
 
-@receiver(post_save, sender=MemberProfile)
-def save_profile(sender, instance, **kwargs):
+@receiver(post_save, sender=Member)
+def save_member_profile(sender, instance, **kwargs):
     instance.memberprofile.save()

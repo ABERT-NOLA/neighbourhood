@@ -5,10 +5,13 @@ from .forms import (MemberSignup, MemberUpdateForm)
 from django.contrib.auth.decorators import login_required
 from .models import Member, User
 from django.views.generic import CreateView
+from .decorators import member_required
 
 # Create your views here.
 def index(request):
     return render(request, 'users/welcome.html')
+
+
 
 class MemberSignupView(CreateView):
     model = User
@@ -21,11 +24,13 @@ class MemberSignupView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        print(user)
         login(self.request, user)
         messages.success(self.request, f'Account created')
 
         return redirect('welcome')
 
+@member_required
 def member_profile(request):
     member = request.user
     member_profile = Member.objects.filter(pk=member).first()
