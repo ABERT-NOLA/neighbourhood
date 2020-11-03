@@ -53,6 +53,9 @@
                         <a class="nav-link" href="{% url 'profile' %}">Hood Admin Profile<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'register-business' %}">Register Business<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
                 {% elif user.is_authenticated and user.is_superuser %}
