@@ -25,10 +25,12 @@ def member_index(request):
     for neigh in neighbourhoods:
         if neigh.location == user.member.location:
             memb_hood = neigh
-    print(memb_hood)
+    business = Business.objects.get(neighbourhood=memb_hood)
+    print(business)
     content = {
         'posts': posts,
-        'hood' : memb_hood
+        'hood' : memb_hood,
+        'business': business
     }
     return render(request, 'hood/member_wel.html', content)
     
