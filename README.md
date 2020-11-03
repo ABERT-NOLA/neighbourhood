@@ -14,14 +14,36 @@ To run the application:-
 2. Cd to that folder.
 3. Create a virtual environment using `python3 -m venv virtual`
 4. Activate the virtual environment using `source virtual/bin/activate`
-5. Install all the django packages in 'requirements.txt' using `pip install <package-name>`.
-6. Run:-
-    - `python3 manage.py makemigrations images`- Creates a migrations folder and database with all the tables
-    - `python3 manage.py migrate`
-
-3. Open the project on your Text Editor/IDE
-4. Run `python3 manage.py runserver` on your terminal
-
+##### Add the following to the env file
+  ```bash
+ SECRET_KEY = your secret key
+ DEBUG=TRUE
+ DB_NAME=''
+ DB_USER='database user name'
+ DB_PASSWORD='database password'
+ DB_HOST='127.0.0.1'
+ MODE='dev'
+ ALLOWED_HOSTS='*'
+ DISABLE_COLLECTSTATIC=1
+ EMAIL_USE_TLS = True
+ EMAIL_HOST = 'smtp.gmail.com'
+ EMAIL_PORT = 587
+ EMAIL_HOST_USER = 'your email'
+ EMAIL_HOST_PASSWORD = '<>'
+ ```
+ ##### Setup Database  
+  SetUp your database User,Password, Host then make migrate  
+ ```bash 
+ python manage.py makemigrations gallery
+ ``` 
+ Now Migrate  
+ ```bash 
+ python manage.py migrate 
+```
+##### Run the application  
+ ```bash 
+ python manage.py runserver 
+```  
 
 #### Author
 - Albert Obwoge 
