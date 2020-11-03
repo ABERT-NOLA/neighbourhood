@@ -28,7 +28,7 @@ class MemberSignupView(CreateView):
         login(self.request, user)
         messages.success(self.request, f'Account created')
 
-        return redirect('welcome')
+        return redirect('welcome-index')
 
 
 
