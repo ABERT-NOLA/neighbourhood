@@ -46,6 +46,12 @@
         </div>
         <div class="col-sm-3">
             <a href="{% url 'create-post'%}" class="btn btn-sm btn-primary">create Post</a>
+            <h5>Your current hood is <span style="font-weight: bold; color: blue;">{{hood.name}}</span></h5>
+            <h5 class="text-danger text-center">Details</h5>
+            <p>Emergency Number: <span style="font-weight: bold;">{{hood.health_eme}}</span></p>
+            <p>Police Number: <span style="font-weight: bold;">{{hood.police_cont}}</span></p>
+            <p>Fire department: <span style="font-weight: bold;">{{hood.fire_dept}}</span></p>
+            <p>Occupants: <span style="font-weight: bold;">{{hood.occ_count}}</span></p>
         </div>
 
         
