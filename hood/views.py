@@ -6,11 +6,32 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from users.decorators import member_required, hood_admin_required
 from .decorators import admin_required
-from .models import Business, Neighbourhood, Post
+from .models import Business, Neighbourhood, Post, Comment
 # Create your views here.
 
 def index(request):
+    posts = Post.objects.all()
+    neihbourhood = Neighbourhood.objects.all()
+    business = Business.objects.all()
+
     return render(request, 'welcome.html')
+
+@member_required
+def member_index(request):
+    posts = Post.objects.all()
+    neighbourhoods = Neighbourhood.objects.all()
+    user = request.user
+    memb_hood = ''
+    for neigh in neighbourhoods:
+        if neigh.location == user.member.location:
+            memb_hood = neigh
+    print(memb_hood)
+    content = {
+        'posts': posts,
+        'hood' : memb_hood
+    }
+    return render(request, 'hood/member_wel.html', content)
+    
 
 @user_passes_test(lambda  u: u.is_superuser)
 def admin_profile(request):
@@ -102,23 +123,41 @@ class HoodDeleteView(UserPassesTestMixin, DeleteView):
     fields = '__all__'
     success_url = '/'
              
+    def test_func(self):
+        return True 
 
     def form_valid(self, form):
         print('great')
         return super().form_valid(form)
 
-@method_decorator(member_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class PostCreateView(CreateView):
     model = Post
     fields = ['title','content', 'image']
 
     def form_valid(self, form):
         print('great')
-        print(self.request.user.userprofile.neighbourhood)
-        form.instance.neighbourhood = self.request.user.userprofile.neighbourhood
+        print(self.request.user)
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
 class PostDetailView(DetailView):
     model = Post
+
+
+@member_required
+def like_post(request, id):
+    post = Post.objects.get(pk=id)
+    post.likes += 1
+    post.save()
+    return redirect('welcome-index')
+
+@member_required
+def leave_comment(request, id):
+    post = Post.objects.get(pk=id)
+    if request.method == 'POST':
+        content = request.POST.get('comment')
+        comment_inst = Comment(content=content, post_id=id)      
+        comment_inst.save()  
+        return redirect('welcome-index')
